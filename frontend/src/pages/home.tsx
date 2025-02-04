@@ -6,7 +6,7 @@ export default function Home() {
     return (
 
         <Container>
-            <Row>
+            <Row style={{ padding: '60px' }}>
                 <Col><Display /></Col>
                 <Col><AddForm /></Col>
             </Row>
