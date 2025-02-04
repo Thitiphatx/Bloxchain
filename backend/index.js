@@ -44,10 +44,9 @@ app.get("/getMessage", async (req, res) => {
 });
 
 app.post("/setMessage", async (req, res) => {
-    const { newMessage } = req.body;
+    const { newMessage } = await req.body;
     const tx = await contract.update(newMessage); // ส่งข้อความใหม่ไปยัง contract
     const receipt = await tx.wait(); // รอให้ธุรกรรมเสร็จสิ้นและดึงข้อมูลของ Transaction Receipt
-    console.log("Transaction receipt:", receipt);
     res.status(200).json({ receipt });
 });
 

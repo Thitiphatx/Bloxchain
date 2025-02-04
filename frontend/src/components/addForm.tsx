@@ -5,11 +5,18 @@ import Form from "react-bootstrap/Form";
 
 export default function AddForm() {
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault(); // Prevents default form submission
         const formData = new FormData(e.currentTarget);
         const messageValue = formData.get("message") as string;
-
+        const response = await fetch("http://localhost:3000/setMessage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ newMessage: messageValue }),
+        });
+        
+        const result = response.json();
+        console.log(result);
     };
 
     return (
