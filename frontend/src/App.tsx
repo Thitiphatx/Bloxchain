@@ -11,14 +11,24 @@ function App() {
   const [transactionInfo, setTransactionInfo] = useState<any>(null); // ข้อมูลของธุรกรรม
 
   // ฟังก์ชันดึงข้อความปัจจุบันจาก Smart Contract
+  // const getMessage = async () => {
+  //   try {
+  //     const provider = new ethers.JsonRpcProvider(ganacheURL); // เชื่อมต่อกับ Ganache
+  //     const contract = new ethers.Contract(contractAddress, HelloWorldABI.abi, provider); // ใช้ ABI และ provider
+  //     const currentMessage = await contract.message(); // เรียกฟังก์ชัน 'message' จาก smart contract
+  //     setMessage(currentMessage); // ตั้งค่าข้อความที่ได้
+  //   } catch (error) {
+  //     console.error("Error loading message:", error); // ถ้ามีข้อผิดพลาดแสดงข้อความ
+  //   }
+  // };
+
   const getMessage = async () => {
     try {
-      const provider = new ethers.JsonRpcProvider(ganacheURL); // เชื่อมต่อกับ Ganache
-      const contract = new ethers.Contract(contractAddress, HelloWorldABI.abi, provider); // ใช้ ABI และ provider
-      const currentMessage = await contract.message(); // เรียกฟังก์ชัน 'message' จาก smart contract
-      setMessage(currentMessage); // ตั้งค่าข้อความที่ได้
+      const response = await fetch("http://localhost:3000/getMessage"); // เรียก API ที่ backend
+      const data = await response.json();
+      setMessage(data.currentMessage); // ตั้งค่าข้อความจาก API
     } catch (error) {
-      console.error("Error loading message:", error); // ถ้ามีข้อผิดพลาดแสดงข้อความ
+      console.error("Error loading message from backend:", error); // ถ้ามีข้อผิดพลาดแสดงข้อความ
     }
   };
 
@@ -35,6 +45,7 @@ function App() {
 
       console.log("Transaction receipt:", receipt);
 
+      
 
       // เก็บข้อมูลธุรกรรมที่สำคัญใน state
       setTransactionInfo({
